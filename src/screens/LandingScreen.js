@@ -3,6 +3,7 @@ import { Image, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { ROUTES } from '../constants/routes';
 import { COLORS } from '../utils/colors';
 import { scaleWidth, scaleHeight } from '../utils/responsive';
+
 const LandingScreen = ({ navigation }) => {
 
     useEffect(() => {

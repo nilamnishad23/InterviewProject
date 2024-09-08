@@ -3,5 +3,5 @@ export const ROUTES = {
     WELCOME: 'Welcome',
     SIGN_IN: 'SignIn',
     SIGN_UP: 'SignUp',
-    PROFILE: 'Profile',
+    HOME: 'Home',
 };

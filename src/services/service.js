@@ -1,10 +1,10 @@
 import apiClient from './api';
 
 // Function to post data
-export const register = async (email, password, name, phone) => {
-    console.log("datasadd-->", email, password, name, phone);
+export const signUp = async (password, name, phone) => {
+    console.log("datasadd-->", password, name, phone);
     try {
-        const response = await apiClient.post('register', email, password, name, phone);
+        const response = await apiClient.post('register', password, name, phone);
         console.log("data-->", response.data);
         return response.data;
     } catch (error) {
@@ -13,9 +13,9 @@ export const register = async (email, password, name, phone) => {
     }
 };
 
-export const login = async (email, phone, password) => {
+export const signIn = async (phone, password) => {
     try {
-        const response = await apiClient.post('login', email, phone, password);
+        const response = await apiClient.post('login', phone, password);
         console.log("dataasas-->", response.data);
         return response.data;
     } catch (error) {

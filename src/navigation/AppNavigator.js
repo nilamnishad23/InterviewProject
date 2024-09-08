@@ -16,7 +16,7 @@ const AppNavigator = () => {
             <Stack.Screen name={ROUTES.WELCOME} component={WelcomeScreen} />
             <Stack.Screen name={ROUTES.SIGN_IN} component={SignInScreen} />
             <Stack.Screen name={ROUTES.SIGN_UP} component={SignUpScreen} />
-            <Stack.Screen name={ROUTES.PROFILE} component={HomeScreen} />
+            <Stack.Screen name={ROUTES.HOME} component={HomeScreen} />
         </Stack.Navigator>
     );
 };
