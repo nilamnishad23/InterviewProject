@@ -1,20 +1,45 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Image, StyleSheet, SafeAreaView, StatusBar, Text } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import { ROUTES } from '../constants/routes';
 import { COLORS } from '../utils/colors';
 import { scaleWidth, scaleHeight, scaleFont } from '../utils/responsive';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = ({ navigation }) => {
+    const [userName, setUserName] = useState('');
+
+    const removeUserName = async () => {
+        try {
+            await AsyncStorage.removeItem('userName');
+        } catch (error) {
+            console.error("Error removing data:", error);
+        }
+    };
     // Handle logout action
     const handleLogout = useCallback(() => {
+        removeUserName();
         navigation.navigate(ROUTES.SIGN_IN);
     }, [navigation]);
+
+    useEffect(() => {
+        const retrieveData = async () => {
+            try {
+                const value = await AsyncStorage.getItem('userName');
+                if (value !== null) {
+                    setUserName(value);
+                }
+            } catch (error) {
+                console.error("Error retrieving data:", error);
+            }
+        };
+
+        retrieveData();
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
-            {/* App Logo */}
             <Image
                 resizeMode="contain"
                 style={styles.logo}
@@ -22,11 +47,7 @@ const HomeScreen = ({ navigation }) => {
                 accessible={true}
                 accessibilityLabel="App Logo"
             />
-
-            {/* Welcome Text */}
-            <Text style={styles.title}>{'Welcome Ramesh'}</Text>
-
-            {/* Bottom Section */}
+            <Text style={styles.title}>{`Welcome ${userName}`}</Text>
             <CustomButton
                 style={styles.customButton}
                 color={COLORS.blue}
@@ -54,7 +75,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     title: {
-        marginVertical: scaleHeight(60),
+        marginVertical: scaleHeight(70),
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: scaleFont(24),
@@ -63,5 +84,4 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-
 

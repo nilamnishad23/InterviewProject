@@ -1,309 +1,119 @@
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, Button, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-// import { register, logout } from '../services/service';
-// import axios from 'axios';
-
-// const SignUpScreen = ({ navigation }) => {
-//     const [name, setName] = useState('');
-//     const [phone, setPhone] = useState('');
-//     const [password, setPassword] = useState('');
-//     // const handleRegister = async () => {
-
-//     //     if (!email || !password || !name) {
-//     //         Alert.alert('Error', 'All fields are required');
-//     //         return;
-//     //     }
-
-//     //     setLoading(true);
-
-//     //     try {
-//     //         await register({ email, password, name, phone });
-//     //         Alert.alert('Success', 'Registration successful');
-//     //     } catch (error) {
-//     //         Alert.alert('Error', error.message || 'Registration failed');
-//     //     } finally {
-//     //         setLoading(false);
-//     //     }
-//     // };
-
-//     const handleSignUp = async () => {
-//         if (name && phone && password) {
-//             try {
-//                 const response = await axios.post('https://tor.appdevelopers.mobi/api/register', {
-//                     name,
-//                     phone,
-//                     password,
-//                 });
-//                 console.log("response---->", response);
-//                 Alert.alert('Registration successful');
-//                 // navigation.navigate('SignIn'); // Navigate back to SignIn screen after successful registration
-//             } catch (error) {
-//                 console.error('Error posting example data=======:', error.response.data);
-//                 Alert.alert('Registration failed. Please try again.');
-//             }
-//         } else {
-//             Alert.alert('Please fill all the fields');
-//         }
-//     };
-
-//     return (
-//         <View style={styles.container}>
-//             <Text style={styles.title}>Sign Up</Text>
-//             <TextInput
-//                 style={styles.input}
-//                 placeholder="Your Name"
-//                 value={name}
-//                 onChangeText={setName}
-//             />
-//             <TextInput
-//                 style={styles.input}
-//                 placeholder="Phone"
-//                 value={phone}
-//                 onChangeText={setPhone}
-//                 keyboardType="phone-pad"
-//             />
-//             <TextInput
-//                 style={styles.input}
-//                 placeholder="Password"
-//                 value={password}
-//                 onChangeText={setPassword}
-//                 secureTextEntry
-//             />
-//             <Button title="Sign Up" onPress={handleSignUp} />
-//             <Text onPress={() => navigation.navigate('SignIn')} style={styles.signInLink}>
-//                 Already have an account? Sign In
-//             </Text>
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         padding: 16,
-//         justifyContent: 'center',
-//     },
-//     title: {
-//         fontSize: 24,
-//         textAlign: 'center',
-//         marginBottom: 16,
-//     },
-//     input: {
-//         borderWidth: 1,
-//         borderColor: '#ccc',
-//         padding: 8,
-//         marginBottom: 16,
-//         borderRadius: 4,
-//     },
-//     signInLink: {
-//         color: 'blue',
-//         textAlign: 'center',
-//         marginTop: 16,
-//     },
-// });
-
-// export default SignUpScreen;
-// import React, { useState } from 'react';
-// import { View, Text, TextInput, Button, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-// import { login } from '../services/service';
-
-// const SignInScreen = ({ navigation }) => {
-//     const [phone, setPhone] = useState(0);
-//     const [email, setEmail] = useState('');
-//     const [password, setPassword] = useState('');
-//     const [loading, setLoading] = useState(false);
-//     const [error, setError] = useState('');
-
-//     // const handleLogin = async () => {
-//     //     setLoading(true);
-//     //     setError('');
-//     //     try {
-//     //         const userData = await login({ email, password });
-//     //         // Handle successful login, e.g., navigate to a different screen or save user data
-//     //         console.log('Login successful:', userData);
-//     //         // Navigate to home screen or other authenticated screen
-//     //         // navigation.navigate('Home'); // Adjust navigation target as needed
-//     //     } catch (err) {
-//     //         // Display error message
-//     //         setError(err.message || 'An error occurred. Please try again.');
-//     //     } finally {
-//     //         setLoading(false);
-//     //     }
-//     // };
-
-//     const handleLogin = async () => {
-//         if (!email || !password || !phone) {
-//             Alert.alert('Error', 'All fields are required');
-//             return;
-//         }
-//         setLoading(true);
-//         try {
-//             await login({ email, phone, password });
-//             Alert.alert('Success', 'login successful');
-//         } catch (error) {
-//             Alert.alert('Error', error.message || 'login failed');
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     return (
-//         <View style={styles.container}>
-//             <Text style={styles.title}>Login</Text>
-//             <TextInput
-//                 style={styles.input}
-//                 placeholder="phone"
-//                 value={phone}
-//                 onChangeText={setPhone}
-//                 keyboardType="email-address"
-//                 autoCapitalize="none"
-//             />
-//             <TextInput
-//                 style={styles.input}
-//                 placeholder="Email"
-//                 value={email}
-//                 onChangeText={setEmail}
-//                 keyboardType="email-address"
-//                 autoCapitalize="none"
-//             />
-//             <TextInput
-//                 style={styles.input}
-//                 placeholder="Password"
-//                 value={password}
-//                 onChangeText={setPassword}
-//                 secureTextEntry
-//             />
-//             {loading ? (
-//                 <ActivityIndicator size="large" color="#0000ff" />
-//             ) : (
-//                 <>
-//                     <Button title="Login" onPress={handleLogin} />
-//                     {error ? <Text style={styles.error}>{error}</Text> : null}
-//                 </>
-//             )}
-//         </View>
-//     );
-// };
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         justifyContent: 'center',
-//         padding: 16,
-//     },
-//     title: {
-//         fontSize: 24,
-//         marginBottom: 16,
-//     },
-//     input: {
-//         height: 40,
-//         borderColor: 'gray',
-//         borderWidth: 1,
-//         marginBottom: 16,
-//         paddingHorizontal: 8,
-//     },
-//     error: {
-//         color: 'red',
-//         marginTop: 16,
-//     },
-// });
-
-// export default SignInScreen;
-import React, { useCallback, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ActivityIndicator, Image, SafeAreaView, StatusBar, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Alert, Image, SafeAreaView, StatusBar, ScrollView, StyleSheet, } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import CustomTextInput from '../components/CustomTextInput';
+import CustomText from '../components/CustomText';
 import { ROUTES } from '../constants/routes';
-import { signUp } from '../services/service';
 import { COLORS } from '../utils/colors';
+import { signUp } from '../services/service';
 import { scaleWidth, scaleHeight, scaleFont } from '../utils/responsive';
-
-// Reusable Text Component
-const CustomText = ({ children, style, onPress }) => {
-    return <Text style={[styles.text, style]} onPress={onPress}>{children}</Text>;
-};
+import CustomCheckbox from '../components/CustomCheckbox';
 
 const SignUpScreen = ({ navigation }) => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+
+
 
     const handleSignUp = async () => {
-        if (!phone || !password || !name) {
+        if (!phone || !password || !name || !isChecked) {
             Alert.alert('Error', 'All fields are required');
             return;
         }
         setLoading(true);
         try {
             await signUp({ phone, name, password });
-            Alert.alert('Success', 'login successful');
+            Alert.alert('Success', 'Sign Up successful');
+            setName('');
+            setPhone('');
+            setPassword('');
+            navigation.navigate(ROUTES.SIGN_IN)
         } catch (error) {
-            Alert.alert('Error', error.message || 'login failed');
+            Alert.alert('Error', error.message || 'Sign Up failed');
         } finally {
             setLoading(false);
         }
     };
+
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
             <ScrollView contentContainerStyle={{ flexGrow: 1, paddingHorizontal: scaleWidth(20) }}>
-                {/* App Logo */}
                 <Image
                     resizeMode="contain"
                     style={styles.logo}
                     source={require('../assets/images/appLogo.png')}
-                    accessible={true}
+                    accessible
                     accessibilityLabel="App Logo"
                 />
-
-                <Text style={{ color: COLORS.black, fontWeight: 'bold', fontSize: scaleFont(24) }}>{'Sign Up'}</Text>
-                <Text style={{ marginTop: scaleHeight(5), color: COLORS.gray, fontSize: scaleFont(12) }}>{'Fill in the below form and add life to your car!'}</Text>
-
+                <CustomText style={styles.title}>{'Sign Up'}</CustomText>
+                <CustomText style={styles.subtitle}>{'Fill in the below form and add life\nto your car!'}</CustomText>
                 <CustomTextInput
-                    placeholder={'Enter your name'}
+                    title={'Name'}
+                    placeholder="Enter your name"
                     value={name}
                     onChangeText={setName}
-
-                    keyboardType={'numeric'}
-                    validationRule={''}
-                    validationMessage={''}
+                    iconSource={require('../assets/images/user.png')}
                 />
-
                 <CustomTextInput
-                    placeholder={'password'}
+                    title={'Phone'}
+                    placeholder="Enter your phone number"
                     value={phone}
                     onChangeText={setPhone}
-                    validationRule={''}
-                    validationMessage={''}
+                    maxLength={10}
+                    keyboardType="phone-pad"
+                    iconSource={require('../assets/images/mail.png')}
                 />
                 <CustomTextInput
-                    placeholder={'password'}
+                    title={'Password'}
+                    placeholder="Password"
                     value={password}
-                    onChangeText={setPhone}
-                    secureTextEntry={true}
-                    validationRule={''}
-                    validationMessage={''}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                    iconSource={require('../assets/images/lock.png')}
                 />
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: scaleHeight(20) }}>
 
-                {/* Bottom Section */}
-                <CustomButton
-                    style={styles.customButton}
-                    color={COLORS.blue}
-                    title={'Sign Up'}
-                    onPress={handleSignUp}
-                />
-                <Text style={styles.signInText}>
-                    <CustomText style={styles.accountText}>{'Already have an account? '}</CustomText>
-                    <CustomText
-                        onPress={() => navigation.navigate(ROUTES.SIGN_IN)}
-                        style={styles.signInLink}>
-                        {'Sign up'}
+                    <CustomCheckbox
+                        label="Agree with Terms & Conditions"
+                        checked={isChecked}
+                        onChange={() => setIsChecked(!isChecked)}
+                    />
+
+                </View>
+                <View style={{ zIndex: 2 }}>
+                    <CustomButton
+                        style={styles.customButton}
+                        color={COLORS.blue}
+                        title="Sign Up"
+                        onPress={handleSignUp}
+                    />
+                    <CustomText style={styles.signUpText}>
+                        <CustomText>{'Already have an account? '}</CustomText>
+                        <CustomText
+                            onPress={() => {
+                                setName('');
+                                setPhone('');
+                                setPassword('');
+                                navigation.navigate(ROUTES.SIGN_IN)
+                            }}
+                            style={styles.signUpLink}>
+                            {'Sign In'}
+                        </CustomText>
                     </CustomText>
-                </Text>
-                <CustomText style={[styles.accountText, { marginVertical: scaleHeight(20), textAlign: 'center', width: '80%', alignSelf: 'center' }]}>{'By login or sign up, you agree to our terms of use and privacy policy'}</CustomText>
+                    <CustomText style={styles.termsText}>
+                        {'By login or sign up, you agree to our terms of use and privacy policy'}
+                    </CustomText>
+                </View>
 
+                <Image
+                    source={require('../assets/images/signupBottom.png')}
+                    style={styles.bottomImage}
+                />
             </ScrollView>
-
         </SafeAreaView>
     );
 };
@@ -319,39 +129,98 @@ const styles = StyleSheet.create({
         height: scaleHeight(170),
         alignSelf: 'center',
     },
+    title: {
+        color: COLORS.black,
+        fontWeight: 'bold',
+        fontSize: scaleFont(24),
+        textAlign: 'left',
+        marginBottom: scaleWidth(10)
+    },
+    subtitle: {
+        marginBottom: scaleHeight(10),
+        color: COLORS.gray,
+        fontSize: scaleFont(12),
+        textAlign: 'left',
+    },
     customButton: {
-        marginTop: scaleHeight(35),
+
         width: scaleWidth(300),
         alignSelf: 'center',
     },
-    title: {
-        marginVertical: scaleHeight(60),
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: scaleFont(24),
+    forgotPassword: {
+        marginTop: scaleHeight(10),
+        textAlign: 'right',
+        textDecorationLine: 'underline',
+        fontSize: scaleFont(14),
         color: COLORS.black,
     },
-    signInText: {
-        textAlign: 'center',
+    orContainer: {
         marginTop: scaleHeight(15),
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    accountText: {
-        fontSize: scaleFont(12),
-        color: COLORS.gray,
+    divider: {
+        width: scaleWidth(100),
+        height: scaleHeight(1),
+        backgroundColor: COLORS.skyBlue,
     },
-    signInLink: {
+    orText: {
+        marginHorizontal: scaleHeight(10),
+    },
+    socialButtons: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: scaleHeight(20),
+    },
+    socialButton: {
+        borderColor: COLORS.skyBlue,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: scaleWidth(40),
+        height: scaleHeight(40),
+        borderWidth: 1,
+        borderRadius: scaleHeight(20),
+    },
+    socialButtonMargin: {
+        marginLeft: scaleHeight(10),
+    },
+    socialIcon: {
+        width: scaleWidth(15),
+        height: scaleHeight(15),
+    },
+    signUpText: {
+        textAlign: 'center',
+        marginVertical: scaleHeight(15),
+    },
+    signUpLink: {
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: scaleFont(14),
         color: COLORS.darkBlue,
     },
-    text: {
-        fontSize: scaleFont(14),
+    termsText: {
+        fontSize: scaleFont(12),
+        color: COLORS.gray,
+        textAlign: 'center',
+        width: '80%',
+        alignSelf: 'center',
     },
-
+    bottomImage: {
+        bottom: 0,
+        right: 0,
+        top: scaleHeight(620),
+        position: 'absolute',
+        width: scaleWidth(200),
+        height: scaleHeight(140),
+        zIndex: 1
+    },
 });
 
 export default SignUpScreen;
+
+
+
 
 
 
