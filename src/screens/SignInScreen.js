@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Alert, Image, SafeAreaView, StatusBar, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { Formik } from 'formik';
 import CustomButton from '../components/CustomButton';
 import CustomTextInput from '../components/CustomTextInput';
 import CustomText from '../components/CustomText';
@@ -7,28 +8,31 @@ import { ROUTES } from '../constants/routes';
 import { COLORS } from '../utils/colors';
 import { signIn } from '../services/service';
 import { scaleWidth, scaleHeight, scaleFont } from '../utils/responsive';
+import * as Yup from 'yup';
+
+const SignInSchema = Yup.object().shape({
+    phone: Yup.string()
+        .required('Phone number is required')
+        .matches(/^[0-9]{10}$/, 'Phone number is not valid'),
+    password: Yup.string()
+        .required('Password is required')
+        .min(8, 'Password must be at least 8 characters'),
+});
 
 const SignInScreen = ({ navigation }) => {
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
 
-    const handleLogin = async () => {
-        if (!password || !phone) {
-            Alert.alert('Error', 'All fields are required');
-            return;
-        }
-        setLoading(true);
+    const handleLogin = async (values, { setSubmitting, resetForm }) => {
+        const { phone, password } = values;
+        setSubmitting(true);
         try {
             await signIn({ phone, password });
             Alert.alert('Success', 'Sign In successful');
-            setPhone('');
-            setPassword('');
-            navigation.navigate(ROUTES.HOME)
+            resetForm();
+            navigation.replace(ROUTES.HOME);
         } catch (error) {
-            Alert.alert('Error', error.message || 'Sign In failed');
+            Alert.alert('Unauthorized. Please check your credentials.');
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 
@@ -45,35 +49,55 @@ const SignInScreen = ({ navigation }) => {
                 />
                 <CustomText style={styles.title}>{'Sign In'}</CustomText>
                 <CustomText style={styles.subtitle}>{'Hi ! Welcome back,\nwe have missed you'}</CustomText>
-                <CustomTextInput
-                    title={'Phone'}
-                    placeholder="Enter your phone number"
-                    value={phone}
-                    maxLength={10}
-                    onChangeText={setPhone}
-                    keyboardType="phone-pad"
-                    iconSource={require('../assets/images/mail.png')}
-                />
-                <CustomTextInput
-                    title={'Password'}
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
-                    iconSource={require('../assets/images/lock.png')}
-                />
-                <CustomText
-                    style={styles.forgotPassword}
-                    onPress={() => { }}
+
+                <Formik
+                    initialValues={{ phone: '', password: '' }}
+                    validationSchema={SignInSchema}
+                    onSubmit={handleLogin}
                 >
-                    {'Forgot password?'}
-                </CustomText>
-                <CustomButton
-                    style={styles.customButton}
-                    color={COLORS.blue}
-                    title="Sign In"
-                    onPress={handleLogin}
-                />
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
+                        <>
+                            <CustomTextInput
+                                title={'Phone'}
+                                placeholder="Enter your phone number"
+                                value={values.phone}
+                                maxLength={10}
+                                onChangeText={handleChange('phone')}
+                                onBlur={handleBlur('phone')}
+                                keyboardType="phone-pad"
+                                iconSource={require('../assets/images/mail.png')}
+                            />
+                            {touched.phone && errors.phone && <CustomText style={styles.errorText}>{errors.phone}</CustomText>}
+
+                            <CustomTextInput
+                                title={'Password'}
+                                placeholder="Enter your password"
+                                value={values.password}
+                                onChangeText={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                                secureTextEntry
+                                iconSource={require('../assets/images/lock.png')}
+                            />
+                            {touched.password && errors.password && <CustomText style={styles.errorText}>{errors.password}</CustomText>}
+
+                            <CustomText
+                                style={styles.forgotPassword}
+                                onPress={() => { }}
+                            >
+                                {'Forgot password?'}
+                            </CustomText>
+
+                            <CustomButton
+                                style={styles.customButton}
+                                color={COLORS.blue}
+                                title="Sign In"
+                                onPress={handleSubmit}
+                                disabled={isSubmitting}
+                            />
+                        </>
+                    )}
+                </Formik>
+
                 <View style={styles.orContainer}>
                     <View style={styles.divider} />
                     <CustomText style={styles.orText}>or</CustomText>
@@ -99,9 +123,8 @@ const SignInScreen = ({ navigation }) => {
                     <CustomText>{'Don’t have an account? '}</CustomText>
                     <CustomText
                         onPress={() => {
-                            setPhone('');
-                            setPassword('');
-                            navigation.navigate(ROUTES.SIGN_UP)
+                            console.log("dfdsf", navigation);
+                            navigation.replace(ROUTES.SIGN_UP);
                         }}
                         style={styles.signUpLink}
                     >
@@ -216,8 +239,16 @@ const styles = StyleSheet.create({
         width: scaleWidth(200),
         height: scaleHeight(140),
     },
+    errorText: {
+        color: 'red',
+        fontSize: scaleFont(12),
+        marginBottom: scaleHeight(5),
+        textAlign: 'left',
+        marginTop: scaleHeight(2)
+    },
 });
 
 export default SignInScreen;
+
 
 
